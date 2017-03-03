@@ -97,6 +97,18 @@ RCT_EXPORT_METHOD(trackTiming:(NSString *)trackerId category:(nonnull NSString *
                                                             label:label] build]];
 }
 
+RCT_EXPORT_METHOD(getClientId:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[mTAGContainer containerId]];
+    NSString *gaClientId = [tracker get:kGAIClientId];
+    if (gaClientId != nil) {
+        resolve(gaClientId);
+    } else {
+        reject(@"GTM-ClientId():", nil, RCTErrorWithMessage(@"Failed to obtain client ID."));
+    }
+}
+
 RCT_EXPORT_METHOD(trackPurchaseEvent:(NSString *)trackerId product:(NSDictionary *)product transaction:(NSDictionary *)transaction eventCategory:(NSString *)eventCategory eventAction:(NSString *)eventAction)
 {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
