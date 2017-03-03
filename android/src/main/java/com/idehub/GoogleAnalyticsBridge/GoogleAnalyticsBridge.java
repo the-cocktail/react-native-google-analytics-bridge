@@ -416,4 +416,16 @@ public class GoogleAnalyticsBridge extends ReactContextBaseJavaModule {
             tracker.setAppVersion(appVersion);
         }
     }
+
+    @ReactMethod
+    public void getClientId(String trackerId, final Promise promise) {
+        Tracker tracker = getTracker(trackerId);
+
+        if (tracker != null) {
+            String clientId = tracker.get("&cid");
+            promise.resolve(clientId);
+        } else {
+            promise.reject("GoogleAnalyticsBridge-getClientId():", new Throwable("Failed to obtain client ID."));
+        }
+    }
 }

@@ -209,4 +209,8 @@ export class GoogleAnalyticsTracker {
   setSamplingRate(sampleRatio) {
     GoogleAnalyticsBridge.setSamplingRate(this.id, sampleRatio);
   }
+
+  getClientId() {
+    return GoogleAnalyticsBridge.getClientId(this.id);
+  }
 }
