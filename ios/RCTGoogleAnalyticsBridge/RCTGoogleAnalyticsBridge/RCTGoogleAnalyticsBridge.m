@@ -1,6 +1,7 @@
 #import "RCTGoogleAnalyticsBridge.h"
 #import "RCTLog.h"
 #import "RCTConvert.h"
+#import "RCTUtils.h"
 #import "GAI.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
@@ -310,10 +311,11 @@ RCT_EXPORT_METHOD(setAppVersion:(NSString *)trackerId appVersion:(NSString *)app
     [tracker set:kGAIAppVersion value:appVersion];
 }
 
-RCT_EXPORT_METHOD(getClientId:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(getClientId:(NSString *)trackerId
+                  solver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[mTAGContainer containerId]];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trackerId];
     NSString *gaClientId = [tracker get:kGAIClientId];
     if (gaClientId != nil) {
         resolve(gaClientId);
