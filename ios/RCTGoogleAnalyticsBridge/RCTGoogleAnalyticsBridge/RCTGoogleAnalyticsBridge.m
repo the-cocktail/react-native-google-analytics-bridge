@@ -310,4 +310,16 @@ RCT_EXPORT_METHOD(setAppVersion:(NSString *)trackerId appVersion:(NSString *)app
     [tracker set:kGAIAppVersion value:appVersion];
 }
 
+RCT_EXPORT_METHOD(getClientId:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[mTAGContainer containerId]];
+    NSString *gaClientId = [tracker get:kGAIClientId];
+    if (gaClientId != nil) {
+        resolve(gaClientId);
+    } else {
+        reject(@"GAI-ClientId():", nil, RCTErrorWithMessage(@"Failed to obtain client ID."));
+    }
+}
+
 @end
